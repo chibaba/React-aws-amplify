@@ -4,7 +4,7 @@ import { LIST } from "antd";
 import "antd/dist/antd.css";
 import { listNotes } from "./graphql/queries";
 
-import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
+// import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
 
 const initialState = {
     notes: [],
@@ -22,13 +22,20 @@ function reducer(state, action) {
             return state;
     }
 }
-function App() {
-    return (
-        <div>
-            <h1>Hello from AWS Amplify</h1>
-            <AmplifySignOut />
-        </div>
-    );
+export default function App() {
+    const [state, dispatch] = useReducer(reducer, initialState);
+    async function fetchNotes() {
+        try {
+            const notesData = await API.graphqlApi({
+                query: listNotes,
+            });
+            dispatch({
+                type: "SET_NOTES",
+                notes: notesData.data.listNotes.items,
+            });
+        } catch (err) {
+            console.log("error: ", err);
+            dispatch({ type: "ERROR" });
+        }
+    }
 }
-
-export default withAuthenticator(App);
