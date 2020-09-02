@@ -12,12 +12,7 @@ const initialState = {
     error: false,
     form: { name: "", description: "" },
 };
-const styles = {
-    container: { padding: 20 },
-    input: { marginBottom: 10 },
-    item: { textAlign: "left" },
-    p: { color: "#1890ff" },
-};
+
 function reducer(state, action) {
     switch (action.type) {
         case "SET_NOTES":
@@ -58,6 +53,7 @@ export default function App() {
             dispatch({ type: "ERROR" });
         }
     }
+
     return (
         <div style={styles.container}>
             <List
@@ -68,3 +64,9 @@ export default function App() {
         </div>
     );
 }
+const styles = {
+    container: { padding: 20 },
+    input: { marginBottom: 10 },
+    item: { textAlign: "left" },
+    p: { color: "#1890ff" },
+};
